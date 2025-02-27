@@ -22,8 +22,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        jdbc:
-          time_zone: Asia/Seoul
+#        jdbc:
+#          time_zone: Asia/Seoul
         format_sql: true
     hibernate:
       ddl-auto: none
@@ -31,7 +31,7 @@ spring:
 logging:
   config: classpath:logback-spring-dev.xml
   file:
-    path: ${user.dir}/logs
+    path: ./logs
 
 #management:
 #  endpoints:

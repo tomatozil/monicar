@@ -18,7 +18,7 @@ api:
   # 에뮬레이터를 컨테이너로 만든 상태에서 로컬 event-hub 서버에 요청 보낼 때
 #  base-url: http://host.docker.internal:8082/api/v1/event-hub/
 
-file-name: seoul-to-gyeongju_formatted.gpx
+file-name: default_seoul-to-gyeongju_formatted.gpx
 
 fixed:
   vehicle-mdn: 1234567890
@@ -35,7 +35,7 @@ spring:
   application:
     name: monicar-emulator-tomato
 
-file-name: yangyang-to-daegu_formatted.gpx
+file-name: tomato_yangyang-to-daegu_formatted.gpx
 
 # rds vehicle_information 데이터 기준
 fixed:
@@ -53,7 +53,7 @@ spring:
   application:
     name: monicar-emulator-banana
 
-file-name: yeosu-to-cheonan_formatted.gpx
+file-name: banana_yeosu-to-cheonan_formatted.gpx
 
 # rds vehicle_information 데이터 기준
 fixed:
@@ -71,7 +71,7 @@ spring:
   application:
     name: monicar-emulator-apple
 
-file-name: gwangju-to-muju_formatted.gpx
+file-name: apple_gwangju-to-muju_formatted.gpx
 
 # rds vehicle_information 데이터 기준
 fixed:
@@ -80,7 +80,7 @@ fixed:
 
 ---
 server:
-  port: 8093
+  port: 8094
 
 spring:
   config:
@@ -89,9 +89,9 @@ spring:
   application:
     name: monicar-emulator-peach
 
-file-name: suwon-daejon-gumi-optimized.gpx
+file-name: peach_suwon-daejon-gumi-optimized.gpx
 
 # rds vehicle_information 데이터 기준
 fixed:
-  vehicle-mdn: 4443625351
-  vehicle-number: 762나5310
+  vehicle-mdn: 3831511086
+  vehicle-number: 401다5889
