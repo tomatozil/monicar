@@ -1,6 +1,7 @@
 package org.eventhub.infrastructure.repository;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.eventhub.application.port.VehicleRepository;
@@ -49,6 +50,22 @@ public class VehicleInformationRepositoryAdapter implements VehicleRepository {
 			.from(vehicleInfo)
 			.where(vehicleInfo.id.eq(vehicleId))
 			.fetchOne();
+	}
+
+	@Override
+	public VehicleInformation updateVehicleLocation(Long vehicleId, Integer lat, Integer lng) {
+		QVehicleInformationEntity vehicleInfo = QVehicleInformationEntity.vehicleInformationEntity;
+		jpaQueryFactory.update(vehicleInfo)
+			.set(vehicleInfo.lat, lat)
+			.set(vehicleInfo.lng, lng)
+			.where(vehicleInfo.id.eq(vehicleId))
+			.execute();
+
+		return Objects.requireNonNull(jpaQueryFactory
+				.selectFrom(vehicleInfo)
+				.where(vehicleInfo.id.eq(vehicleId))
+				.fetchOne())
+			.toDomain();
 	}
 
 	@Override

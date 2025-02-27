@@ -13,5 +13,7 @@ public interface VehicleRepository {
 
 	VehicleStatus updateVehicleStatus(Long vehicleId, VehicleStatus vehicleStatus);
 
+	VehicleInformation updateVehicleLocation(Long vehicleId, Integer lat, Integer lng);
+
 	void updateDrivingDaysAll();
 }

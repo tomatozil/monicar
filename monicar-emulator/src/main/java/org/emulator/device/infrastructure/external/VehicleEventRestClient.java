@@ -38,6 +38,7 @@ public class VehicleEventRestClient implements VehicleEventSender {
 	public BaseResponse sendCycleInfoEvent(List<CycleInfo> cycleInfo) {
 		CycleInfoListCommand cycleInfoListCommand = CycleInfoListCommand.from(cycleInfo);
 
-		return restClientService.post("cycle-info", cycleInfoListCommand);
+		// return restClientService.post("cycle-info", cycleInfoListCommand);
+		return restClientService.post("cycle-info/redirect", cycleInfoListCommand);
 	}
 }
