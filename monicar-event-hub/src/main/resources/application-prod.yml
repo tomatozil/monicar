@@ -25,8 +25,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        jdbc:
-          time_zone: Asia/Seoul
+#        jdbc:
+#          time_zone: Asia/Seoul
         format_sql: true
     hibernate:
       ddl-auto: none

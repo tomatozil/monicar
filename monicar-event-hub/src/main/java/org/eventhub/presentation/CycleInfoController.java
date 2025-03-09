@@ -2,6 +2,7 @@ package org.eventhub.presentation;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.eventhub.application.CycleInfoService;
 import org.eventhub.application.port.CycleInfoEventPublisher;
 import org.eventhub.common.response.BaseResponse;
 import org.eventhub.domain.CycleInfoList;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CycleInfoController {
 	private final CycleInfoEventPublisher cycleInfoEventPublisher;
+	private final CycleInfoService cycleInfoService;
 
 	@PostMapping("cycle-info")
 	public BaseResponse cycleInfo(
@@ -28,6 +30,18 @@ public class CycleInfoController {
 		log.info("cycle information request in !");
 		CycleInfoList cycleInfoList = request.toDomain();
 		cycleInfoEventPublisher.publishEvent(cycleInfoList);
+
+		return BaseResponse.success();
+	}
+
+	@PostMapping("cycle-info/redirect")
+	public BaseResponse cycleInfoToDB(
+		@Valid @RequestBody CycleInfoListRequest request
+	) {
+		log.info("cycle information request in !");
+		log.info("[2]event hub first interval at: {}", request.cList().get(0).intervalAt());
+		CycleInfoList cycleInfoList = request.toDomain();
+		cycleInfoService.saveCycleInfos(cycleInfoList);
 
 		return BaseResponse.success();
 	}

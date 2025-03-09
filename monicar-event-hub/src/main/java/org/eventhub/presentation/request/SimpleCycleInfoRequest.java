@@ -13,8 +13,8 @@ import org.eventhub.domain.GpsStatus;
 public record SimpleCycleInfoRequest(
 	@JsonFormat(pattern = "yyyyMMddHHmmss") LocalDateTime intervalAt,
 	GpsStatus gcd,
-	Long lat,
-	Long lng,
+	Integer lat,
+	Integer lng,
 	Integer ang,
 	Integer spd
 ) {

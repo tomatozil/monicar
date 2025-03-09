@@ -13,8 +13,8 @@ import lombok.Builder;
 public record CycleInfoCommand(
 	@JsonFormat(pattern = "yyyyMMddHHmmss") LocalDateTime intervalAt,
 	GpsStatus gcd,
-	Long lat,
-	Long lng,
+	Integer lat,
+	Integer lng,
 	Integer ang,
 	Integer spd
 ) {

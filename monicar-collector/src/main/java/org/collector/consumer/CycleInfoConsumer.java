@@ -16,8 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CycleInfoConsumer {
 	private final CycleInfoService cycleInfoService;
 
-	@KafkaListener(topicPartitions = @TopicPartition(topic = "cycleInfo-json-topic",
-		partitions = "#{@finder.partitions('cycleInfo-json-topic')}"))
+	@KafkaListener(
+		topics = { "cycleInfo-json-topic" },
+		groupId = "consumer-group"
+	)
 	public void accept(ConsumerRecord<String, CycleInfoRequest> message) {
 		cycleInfoService.cycleInfoSave(message.value());
 		log.info("[Main Consumer] Message arrived! - " + message.key());
