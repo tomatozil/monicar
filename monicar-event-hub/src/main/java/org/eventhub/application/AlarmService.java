@@ -6,20 +6,20 @@ import org.eventhub.application.port.AlarmRepository;
 import org.eventhub.application.port.AlarmSender;
 import org.eventhub.domain.Alarm;
 import org.eventhub.domain.AlarmStatus;
+import org.eventhub.domain.VehicleInformation;
 import org.eventhub.infrastructure.external.command.AlarmSend;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class AlarmService {
+	private final VehicleService vehicleService;
 	private final AlarmRepository alarmRepository;
 	private final AlarmSender alarmSender;
 	@Value("${alarm-interval-distance}")
@@ -29,31 +29,30 @@ public class AlarmService {
 		return alarmRepository.findByVehicleId(vehicleId);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public Optional<Long> saveAlarmIfNecessary(Long vehicleId, Long totalDistance) {
+	@Async
+	public void sendAlarmIfNecessary(Long mdn) {
+		VehicleInformation vehicleInfo = vehicleService.getVehicleInformation(mdn);
+		Long vehicleId = vehicleInfo.getId();
+		Long totalDistance = vehicleInfo.getSum();
 		try {
 			Optional<Alarm> alarm = alarmRepository.findRecentOneByVehicleId(vehicleId);
 			int targetDistance = alarm.map(Alarm::getDrivingDistance).orElse(0);
 
 			if (checkBiggerThanIntervalDistance(totalDistance, targetDistance)) {
 				if (alarm.isEmpty() || alarm.get().getStatus().equals(AlarmStatus.COMPLETED)) {
-					return Optional.ofNullable(alarmRepository.save(vehicleId));
+					Long alarmId = alarmRepository.save(vehicleId);
+					sendAlarm(alarmId);
 				}
 			}
-			return Optional.empty();
 		} catch (Exception e) {
-			log.error("Alarm 쿼리 예외 발생", e);
+			log.error("알림 로직 예외 발생", e);
 		}
-		return Optional.empty();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void sendAlarm(Long alarmId) {
-		try {
-			alarmSender.sendAlarm(AlarmSend.builder().alarmId(alarmId).build());
-		} catch (Exception e) {
-			log.info("something wrong: {}", e.getMessage());
-		}
+	private void sendAlarm(Long alarmId) {
+		alarmSender.sendAlarm(AlarmSend.builder()
+			.alarmId(alarmId)
+			.build());
 	}
 
 	private boolean checkBiggerThanIntervalDistance(long totalDistance, int drivingDistanceLastCheck) {
