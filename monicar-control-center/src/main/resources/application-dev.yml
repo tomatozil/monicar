@@ -54,7 +54,7 @@ cookie:
 logging:
   config: classpath:logback-spring-dev.xml
   file:
-    path: ${user.dir}/logs
+    path: ./logs
 swagger:
   server:
     prod-url: ${PROD_URL}

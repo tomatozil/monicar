@@ -21,8 +21,8 @@ api:
 file-name: default_seoul-to-gyeongju_formatted.gpx
 
 fixed:
-  vehicle-mdn: 1234567890
-  vehicle-number: 123나1234
+  vehicle-mdn: 2254690422
+  vehicle-number: 657가5202
 
 ---
 server:
@@ -39,8 +39,8 @@ file-name: tomato_yangyang-to-daegu_formatted.gpx
 
 # rds vehicle_information 데이터 기준
 fixed:
-  vehicle-mdn: 2254690422
-  vehicle-number: 657가5202
+  vehicle-mdn: 1234567890
+  vehicle-number: 123나1234
 
 ---
 server:
