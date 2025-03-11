@@ -32,6 +32,14 @@ logging:
   config: classpath:logback-spring-dev.xml
   file:
     path: ./logs
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: DEBUG
+    com:
+      zaxxer:
+        hikari: TRACE
 
 #management:
 #  endpoints:

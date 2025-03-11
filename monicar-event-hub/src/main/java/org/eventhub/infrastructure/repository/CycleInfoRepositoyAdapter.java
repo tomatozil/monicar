@@ -7,6 +7,7 @@ import java.util.List;
 import org.eventhub.application.port.CycleInfoRepository;
 import org.eventhub.domain.CycleInfo;
 import org.eventhub.infrastructure.repository.jpa.CycleInfoJpaRepository;
+import org.eventhub.infrastructure.repository.jpa.entity.CycleInfoEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,12 +22,16 @@ public class CycleInfoRepositoyAdapter implements CycleInfoRepository {
 	private final JdbcTemplate jdbcTemplate;
 
 	@Override
-	public void saveAll(List<CycleInfo> cycleInfos) {
-		log.info("[3]event hub first interval at: {}", cycleInfos.get(0).getIntervalAt());
-	// 	return jpaRepository.saveAll(cycleInfos.stream().map(CycleInfoEntity::from).toList())
-	// 		.stream()
-	// 		.map(CycleInfoEntity::toDomain)
-	// 		.toList();
+	public List<CycleInfo> saveAll(List<CycleInfo> cycleInfos) {
+		return jpaRepository.saveAll(cycleInfos.stream().map(CycleInfoEntity::from).toList())
+			.stream()
+			.map(CycleInfoEntity::toDomain)
+			.toList();
+	}
+
+	@Override
+	public void saveAllBatch(List<CycleInfo> cycleInfos) {
+		log.info("saving cycle info works begin !!");
 		String sql = """
             INSERT INTO cycle_info (vehicle_id, interval_at, status, lat, lng, ang, spd, created_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -47,7 +52,8 @@ public class CycleInfoRepositoyAdapter implements CycleInfoRepository {
 			})
 			.toList();
 
-		// 🔹 Batch Insert 실행
-		jdbcTemplate.batchUpdate(sql, batchArgs);
+		int[] batchResults = jdbcTemplate.batchUpdate(sql, batchArgs);
+
+		log.info("배치 결과: {}", batchResults.length);
 	}
 }

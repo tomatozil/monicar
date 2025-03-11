@@ -5,5 +5,6 @@ import java.util.List;
 import org.eventhub.domain.CycleInfo;
 
 public interface CycleInfoRepository {
-	void saveAll(List<CycleInfo> cycleInfos);
+	List<CycleInfo> saveAll(List<CycleInfo> cycleInfos);
+	void saveAllBatch(List<CycleInfo> cycleInfos);
 }

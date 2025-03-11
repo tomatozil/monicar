@@ -39,7 +39,6 @@ public class CycleInfoController {
 		@Valid @RequestBody CycleInfoListRequest request
 	) {
 		log.info("cycle information request in !");
-		log.info("[2]event hub first interval at: {}", request.cList().get(0).intervalAt());
 		CycleInfoList cycleInfoList = request.toDomain();
 		cycleInfoService.saveCycleInfos(cycleInfoList);
 
