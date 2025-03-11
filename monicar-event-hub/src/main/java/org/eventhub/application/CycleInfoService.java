@@ -38,7 +38,8 @@ public class CycleInfoService {
 						.spd(c.getSpd())
 						.build()
 			).toList();
-		cycleInfoRepository.saveAll(cycleInfos);
+		cycleInfoRepository.saveAllBatch(cycleInfos);
+		// cycleInfoRepository.saveAll(cycleInfos);
 	}
 
 	private VehicleInformation saveVehicleLocation(Long vehicleId, CycleInfoList cycleInfoList) {
